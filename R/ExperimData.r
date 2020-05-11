@@ -35,6 +35,13 @@ psych::alpha(confid) # Confidence reliability
 # Aplha equal or greater than 0.7 is acceptable 
 #There's a very high internal consistency in our data, thus data is reliable
 
+# Data correlation
+Corr <- select(dataset, fost1, fost2, fost3, exam)
+corr.test(Corr,
+use = "pairwise",
+method = "pearson",
+adjust = "none",
+alpha = .05)
 
 # Frequencies and Descriptives
 # Frequencies are for both the strings and numeric variables 
@@ -180,6 +187,12 @@ summary(Regress)$coefficients
 # Confid3 is the only factor statistically significant associated with exam scores.
 # With fost3, confid3 & depress3 predictor variables, the adjusted R2 = 0.8964, meaning that “89% of the variance in the measure of exam scores can be predicted.
 
+# The correlation between confid3 and exam: person correlation
+cor.test(dataset$confid3, dataset$exam, method = "pearson")
+# The p-value of the test is 4.008e-15, which is less than the significance level alpha = 0.05. 
+# Concl: confid3 and exam are significantly correlated with a correlation coefficient of 0.945 and p-value of 4.008e-15.
+
 # Residual Standard Error (RSE), or sigma: The RSE estimate gives a measure of error of prediction. The lower the RSE, the more accurate the model:
 sigma(model)/mean(dataset$exam)
 # In our multiple regression example, the RSE is 3.494 corresponding to 7.5% error rate.
+# The linear model is thus: exam = 21.85 - 0.20*fost3 + 1.82*confid3 + 0.2*depress3 
