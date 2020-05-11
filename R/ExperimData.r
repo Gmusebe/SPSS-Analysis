@@ -139,10 +139,9 @@ summary(aov(fost2 ~ group, data = dataset))
 ##  Check anova assumptions: test validity?
 # Check the homogeneity of variance assumption : The residuals versus fits plot.
 plot(aov(fost2 ~ group, data = dataset), 1)
-
-
 # There is no evident relationships between residuals and fitted values (the mean of each groups), which is good.
 # So, we can assume the homogeneity of variances.
+
 
 # Friedman’s Analysis of Variance
 # Was there a change in depression scores across the three different time periods:
@@ -162,3 +161,25 @@ ggboxplot(depress, x = "time", y = "score", add = "jitter")
 depress %>% friedman_test(score ~ time|id)
 # The magnitude effect of the test
  depress %>% friedman_effsize(score ~ time|id)
+
+# Multiple linear Regression
+# With three predictor variables (x), the prediction of y(exam) is expressed by the following equation:
+# y = b0 + b1*x1 + b2*x2 + b3*x3:
+# The “b” values are regression weights (or beta coefficients): measure the association between the predictor variable and the outcome.
+
+# We want to build a model for estimating exam based on the levels of fear, confidence and depression recorded toward stats subject.
+# : exam = b0 + b1*fost3 + b2*confid3 + b3*depress3
+# Model:
+lm(exam ~ fost3 + depress3 + confid3, data = dataset) -> Regress
+summary(Regress)
+# It seen that p-value of the F-statistic is 1.54e-13, which is highly significant.
+# This means that, at least, one of the predictor variables is significantly related to the outcome variable. 
+# To see which predictor variables are significant, you can examine the coefficients table:
+
+summary(Regress)$coefficients
+# Confid3 is the only factor statistically significant associated with exam scores.
+# With fost3, confid3 & depress3 predictor variables, the adjusted R2 = 0.8964, meaning that “89% of the variance in the measure of exam scores can be predicted.
+
+# Residual Standard Error (RSE), or sigma: The RSE estimate gives a measure of error of prediction. The lower the RSE, the more accurate the model:
+sigma(model)/mean(dataset$exam)
+# In our multiple regression example, the RSE is 3.494 corresponding to 7.5% error rate.
