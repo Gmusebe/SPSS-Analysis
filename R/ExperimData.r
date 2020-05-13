@@ -109,7 +109,7 @@ ggdensity(dataset$fost1, )
 
 dataset %>% group_by(sex) %>% shapiro_test(fost1)
 
-# •Assumption #6: Check that there is homogeneity of variances; Levene's test (One-Way ANOVA)
+# •Assumption # Check that there is homogeneity of variances.
 leveneTest(fost1 ~ sex, dataset, mean)
 # Homogeneity of variance has not been violated.
 
